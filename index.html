@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#050706" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="NUTRITION CORE" />
+  <title>NUTRITION CORE</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div><div class="eyebrow">PERSONAL BODY SYSTEM</div><h1>NUTRITION <span>CORE</span></h1></div>
+      <button id="settingsBtn" class="icon-btn" aria-label="設定">⚙</button>
+    </header>
+
+    <main>
+      <section id="homeView" class="view active">
+        <div class="profile-strip panel">
+          <div><div class="section-label">ADAPTIVE TARGET</div><strong id="profileGoal">SETUP REQUIRED</strong><small id="profileMeta">プロフィールを設定してください</small></div>
+          <div class="profile-target"><span>DAILY</span><b id="adaptiveTarget">--</b><em>kcal</em></div>
+        </div>
+
+        <div class="hero-card panel">
+          <div class="section-label">TODAY / ENERGY</div>
+          <div class="hero-row"><div><div id="calorieConsumed" class="hero-number">0</div><div class="unit">kcal consumed</div></div><div class="remaining-block"><div class="muted">REMAINING</div><div id="calorieRemaining" class="remaining-number">0</div><div class="unit">kcal</div></div></div>
+          <div class="progress-track"><div id="calorieBar" class="progress-fill"></div></div>
+          <div class="target-row"><span>DAILY TARGET</span><strong id="calorieTarget">-- kcal</strong></div>
+        </div>
+
+        <div class="grid-3 macros">
+          <article class="macro-card panel"><div class="macro-name">PROTEIN</div><div><span id="pValue" class="macro-value">0</span><span class="macro-unit">g</span></div><div class="mini-track"><div id="pBar" class="mini-fill"></div></div><div id="pRemain" class="macro-sub">--</div></article>
+          <article class="macro-card panel"><div class="macro-name">FAT</div><div><span id="fValue" class="macro-value">0</span><span class="macro-unit">g</span></div><div class="mini-track"><div id="fBar" class="mini-fill"></div></div><div id="fRemain" class="macro-sub">--</div></article>
+          <article class="macro-card panel"><div class="macro-name">CARBS</div><div><span id="cValue" class="macro-value">0</span><span class="macro-unit">g</span></div><div class="mini-track"><div id="cBar" class="mini-fill"></div></div><div id="cRemain" class="macro-sub">--</div></article>
+        </div>
+
+        <div id="adjustmentCard" class="adjustment-card panel"><div><div class="section-label">WEEKLY AUTO TUNE</div><strong id="adjustmentTitle">データ収集中</strong><p id="adjustmentText">14日分の体重傾向が揃うと、週1回だけ摂取目安を補正します。</p></div><span id="adjustmentBadge">AUTO</span></div>
+
+        <div class="action-grid">
+          <button class="action-card primary-action" data-action="scan"><span class="action-icon">▣</span><span>栄養成分を撮る</span><small>PHOTO SCAN</small></button>
+          <button class="action-card" data-action="food"><span class="action-icon">＋</span><span>食事を追加</span><small>QUICK LOG</small></button>
+          <button class="action-card" data-action="weight"><span class="action-icon">⌁</span><span>体重を記録</span><small>BODY LOG</small></button>
+          <button class="action-card" data-nav="search"><span class="action-icon">⌕</span><span>食品を検索</span><small>DATABASE</small></button>
+        </div>
+
+        <section class="panel compact-panel"><div class="panel-header"><div><div class="section-label">BODY TREND</div><h2>体重</h2></div><div><strong id="latestWeight">--</strong><span class="unit"> kg</span></div></div><canvas id="weightChart" width="700" height="220"></canvas><div id="weightTrendText" class="trend-text">データ未登録</div></section>
+        <section class="panel compact-panel"><div class="panel-header"><div><div class="section-label">TODAY / LOG</div><h2>食事履歴</h2></div><button class="text-btn" data-nav="history">すべて見る</button></div><div id="todayMeals" class="meal-list"></div></section>
+      </section>
+
+      <section id="historyView" class="view"><div class="view-title"><div><div class="section-label">LOG ARCHIVE</div><h2>履歴</h2></div><input id="historyDate" type="date" /></div><section class="panel compact-panel"><div id="historySummary" class="summary-strip"></div><div id="historyMeals" class="meal-list"></div></section></section>
+      <section id="searchView" class="view"><div class="view-title"><div><div class="section-label">FOOD DATABASE</div><h2>食品検索</h2></div></div><div class="search-box"><span>⌕</span><input id="foodSearch" type="search" placeholder="白米、卵、商品名…" autocomplete="off" /></div><div class="search-tabs"><button class="chip active" data-filter="all">すべて</button><button class="chip" data-filter="saved">保存済み</button><button class="chip" data-filter="basic">基本食品</button></div><div id="searchResults" class="search-results"></div></section>
+      <section id="weightView" class="view"><div class="view-title"><div><div class="section-label">BODY ANALYTICS</div><h2>体重データ</h2></div><button class="text-btn" data-action="weight">＋ 記録</button></div><section class="panel compact-panel"><div class="stats-grid"><div><span>最新</span><strong id="weightLatestLarge">-- kg</strong></div><div><span>7日平均</span><strong id="weightAvg7">-- kg</strong></div><div><span>前週差</span><strong id="weightWeekDelta">-- kg</strong></div></div><canvas id="weightChartLarge" width="700" height="360"></canvas></section><section class="panel compact-panel"><div class="panel-header"><h2>記録</h2></div><div id="weightHistory" class="weight-list"></div></section></section>
+    </main>
+
+    <nav class="bottom-nav"><button class="nav-btn active" data-nav="home"><span>⌂</span><small>HOME</small></button><button class="nav-btn" data-nav="history"><span>≡</span><small>LOG</small></button><button class="nav-btn scan-nav" data-action="scan"><span>▣</span><small>SCAN</small></button><button class="nav-btn" data-nav="search"><span>⌕</span><small>SEARCH</small></button><button class="nav-btn" data-nav="weight"><span>⌁</span><small>BODY</small></button></nav>
+  </div>
+
+  <dialog id="setupDialog" class="modal locked-modal"><form method="dialog" id="setupForm" class="modal-card">
+    <div class="setup-brand"><div class="section-label">INITIAL CALIBRATION</div><h2>NUTRITION <span>CORE</span></h2><p>あなたの体格・活動量・目的から最初の目安を作ります。あとからいつでも変更できます。</p></div>
+    <div class="field-row"><label>身長 (cm)<input id="profileHeight" type="number" min="120" max="230" step="0.1" required /></label><label>体重 (kg)<input id="profileWeight" type="number" min="35" max="250" step="0.1" required /></label></div>
+    <div class="field-row"><label>年齢<input id="profileAge" type="number" min="18" max="90" step="1" required /></label><label>計算式の性別<select id="profileSex"><option value="male">男性</option><option value="female">女性</option></select></label></div>
+    <label>活動レベル<select id="profileActivity"><option value="1.2">低い：デスクワーク中心</option><option value="1.375">やや低い：軽い運動 週1〜3</option><option value="1.55" selected>普通：運動 週3〜5</option><option value="1.725">高い：強い運動 週6前後</option></select></label>
+    <div class="field-row"><label>目的<select id="profileGoalSelect"><option value="loss">減量</option><option value="maintain">維持</option><option value="gain">増量</option></select></label><label>ペース<select id="profilePace"><option value="gentle">ゆるめ</option><option value="standard" selected>標準</option><option value="fast">速め</option></select></label></div>
+    <label>目標体重 (kg) <span class="optional">任意</span><input id="profileTargetWeight" type="number" min="35" max="250" step="0.1" /></label>
+    <label class="switch-row"><input id="profileAutoAdjust" type="checkbox" checked /> 体重推移から週1回、自動で摂取目安を微調整する</label>
+    <div id="setupPreview" class="target-preview"></div>
+    <p class="safety-note">表示値は一般的な推定式による目安です。体調や持病、妊娠・授乳中、治療中など個別の事情がある場合は医療専門家の指示を優先してください。</p>
+    <button class="submit-btn" value="default">この設定で開始</button>
+  </form></dialog>
+
+  <dialog id="foodDialog" class="modal"><form method="dialog" id="foodForm" class="modal-card"><div class="modal-head"><div><div class="section-label">QUICK LOG</div><h2>食事を追加</h2></div><button class="close-btn" value="cancel">×</button></div><label>食品名<input id="foodName" required placeholder="例：白米" /></label><div class="field-row"><label>kcal<input id="foodKcal" type="number" min="0" step="0.1" required /></label><label>量・メモ<input id="foodAmount" placeholder="200g / 1個" /></label></div><div class="field-row three"><label>P (g)<input id="foodP" type="number" min="0" step="0.1" value="0" /></label><label>F (g)<input id="foodF" type="number" min="0" step="0.1" value="0" /></label><label>C (g)<input id="foodC" type="number" min="0" step="0.1" value="0" /></label></div><div class="field-row"><label>食事<select id="foodMeal"><option>朝食</option><option>昼食</option><option>夕食</option><option>間食</option></select></label><label>日付<input id="foodDate" type="date" /></label></div><label class="switch-row"><input id="saveFoodToggle" type="checkbox" /> この食品を検索用に保存</label><button class="submit-btn" value="default">記録する</button></form></dialog>
+
+  <dialog id="weightDialog" class="modal"><form method="dialog" id="weightForm" class="modal-card small-card"><div class="modal-head"><div><div class="section-label">BODY LOG</div><h2>体重を記録</h2></div><button class="close-btn" value="cancel">×</button></div><label>体重 (kg)<input id="weightInput" type="number" min="20" max="300" step="0.1" required inputmode="decimal" /></label><label>日付<input id="weightDate" type="date" /></label><button class="submit-btn" value="default">保存する</button></form></dialog>
+
+  <dialog id="scanDialog" class="modal"><div class="modal-card scan-card"><div class="modal-head"><div><div class="section-label">NUTRITION OCR</div><h2>栄養成分を読み取る</h2></div><button id="scanClose" class="close-btn">×</button></div><div class="scan-guide"><div class="scanner-frame">NUTRITION LABEL</div><p>栄養成分表示が真っ直ぐ・明るく写るように撮影してください。</p></div><input id="scanFile" type="file" accept="image/*" capture="environment" hidden /><button id="scanPickBtn" class="submit-btn">写真を撮る / 選ぶ</button><img id="scanPreview" class="scan-preview" alt="" hidden /><div id="ocrStatus" class="ocr-status" hidden><div class="scan-line"></div><strong>READING LABEL...</strong><span id="ocrProgress">準備中</span></div><div id="ocrResult" hidden><div class="confidence-note">読み取り結果は保存前に必ず確認してください。</div><label>商品名<input id="scanName" placeholder="商品名" /></label><div class="field-row"><label>kcal<input id="scanKcal" type="number" min="0" step="0.1" /></label><label>基準<select id="scanBasis"><option value="package">1包装 / 1個あたり</option><option value="100g">100gあたり</option></select></label></div><div class="field-row three"><label>P (g)<input id="scanP" type="number" min="0" step="0.1" /></label><label>F (g)<input id="scanF" type="number" min="0" step="0.1" /></label><label>C (g)<input id="scanC" type="number" min="0" step="0.1" /></label></div><div id="hundredGramFields" class="field-row" hidden><label>食べた量 (g)<input id="scanGrams" type="number" min="0" step="1" value="100" /></label><div class="calc-note">100g基準から自動換算</div></div><div class="field-row"><label>食事<select id="scanMeal"><option>朝食</option><option>昼食</option><option>夕食</option><option>間食</option></select></label><label>日付<input id="scanDate" type="date" /></label></div><label class="switch-row"><input id="scanSaveFood" type="checkbox" checked /> この商品を検索用に保存</label><button id="scanSaveBtn" class="submit-btn">確認して記録</button><details class="ocr-raw"><summary>読み取り原文を確認</summary><pre id="ocrRaw"></pre></details></div></div></dialog>
+
+  <dialog id="settingsDialog" class="modal"><form method="dialog" id="settingsForm" class="modal-card"><div class="modal-head"><div><div class="section-label">SYSTEM CONFIG</div><h2>プロフィール / 目標</h2></div><button class="close-btn" value="cancel">×</button></div>
+    <div class="settings-section"><h3>プロフィール</h3><div class="field-row"><label>身長 (cm)<input id="setHeight" type="number" min="120" max="230" step="0.1" /></label><label>年齢<input id="setAge" type="number" min="18" max="90" /></label></div><div class="field-row"><label>計算式の性別<select id="setSex"><option value="male">男性</option><option value="female">女性</option></select></label><label>活動レベル<select id="setActivity"><option value="1.2">低い</option><option value="1.375">やや低い</option><option value="1.55">普通</option><option value="1.725">高い</option></select></label></div><div class="field-row"><label>目的<select id="setGoal"><option value="loss">減量</option><option value="maintain">維持</option><option value="gain">増量</option></select></label><label>ペース<select id="setPace"><option value="gentle">ゆるめ</option><option value="standard">標準</option><option value="fast">速め</option></select></label></div><label>目標体重 (kg) <span class="optional">任意</span><input id="setTargetWeight" type="number" min="20" max="300" step="0.1" /></label><label class="switch-row"><input id="setAutoAdjust" type="checkbox" /> 週1回の自動調整を有効にする</label><button id="recalcBtn" type="button" class="outline-btn wide-btn">現在のプロフィールから目標を再計算</button></div>
+    <div class="settings-section"><h3>毎日の目標 <span class="optional">手動調整可</span></h3><div class="field-row"><label>カロリー<input id="setKcal" type="number" min="800" max="6000" step="10" /></label><label>たんぱく質 (g)<input id="setP" type="number" min="0" max="500" step="1" /></label></div><div class="field-row"><label>脂質 (g)<input id="setF" type="number" min="0" max="300" step="1" /></label><label>炭水化物 (g)<input id="setC" type="number" min="0" max="1000" step="1" /></label></div></div>
+    <div class="settings-section danger-zone"><h3>データ管理</h3><div class="button-row"><button id="exportBtn" type="button" class="outline-btn">バックアップ書き出し</button><label class="outline-btn file-label">復元<input id="importFile" type="file" accept="application/json" hidden /></label></div><p>記録は各スマホのブラウザ内に個別保存されます。他の利用者とは共有されません。</p></div><button class="submit-btn" value="default">設定を保存</button>
+  </form></dialog>
+
+  <div id="toast" class="toast"></div>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
